@@ -5,4 +5,4 @@ This client makes easier to use the diffbot automatic APIs ([article](https://ww
 
 For usage, you will need a token from [diffbot](http://www.diffbot.com/pricing/).
 
-The released versions contains the built update site, you just have to add the update site to KNIME and accept the license (those are not signed, so you will have to accept that unsigned feature too).
+The released versions contains the built [update site](https://github.com/aborg0/diffbot_knime/releases/download/v_0.1/com.diffbot.knime.update.zip), you just have to add the update site to KNIME and accept the license (those are not signed yet, so you will have to accept that this is an unsigned feature too). An example workflow (with sample contents) can be found [here](https://github.com/aborg0/diffbot_knime/releases/download/v_0.1/Diffbot.demo_0.1.zip)
