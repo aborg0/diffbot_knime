@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.diffbot.knime.feature"
+      label="Diffbot KNIME client feature"
+      version="0.1.0.qualifier"
+      provider-name="Diffbot Corp.">
+
+   <description>
+      The Article API is used to extract clean article text and other data from news articles, blog posts and other text-heavy pages. Retrieve the full-text, cleaned and normalized HTML, related images and videos, author, date, tags -- all automatically, from any article on any site.
+The KNIME client can use diffbot to visit the page and provide the results as a JSON value. You need a token to use these services: http://www.diffbot.com/pricing/
+   </description>
+
+   <copyright url="http://www.diffbot.com">
+      Diffbot Corp. (c) 2014
+All rights reserved.
+   </copyright>
+
+   <license url="http://opensource.org/licenses/BSD-3-Clause">
+      Copyright (c) 2014, Diffbot Corp.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   </license>
+
+   <url>
+      <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/S20141129202728/repository/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime" version="3.7.0" match="greaterOrEqual"/>
+      <import plugin="org.knime.workbench.core" version="2.11.0" match="compatible"/>
+      <import plugin="org.knime.workbench.repository" version="2.11.0" match="compatible"/>
+      <import plugin="org.knime.base" version="2.11.0" match="compatible"/>
+      <import plugin="org.knime.json" version="2.11.0" match="compatible"/>
+      <import plugin="diffbot.diffbot-java" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="diffbot.diffbot-java"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.diffbot.knime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+</feature>

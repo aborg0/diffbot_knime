@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.knime.workbench.repository.categories">
+      <category
+            description="Diffbot nodes"
+            icon="icons/diffbot.png"
+            level-id="diffbot"
+            name="Diffbot"
+            path="/community"/>
+   </extension>
+   
+   <extension
+         point="org.knime.workbench.repository.nodes">
+      <node
+            category-path="/community/diffbot"
+            factory-class="com.diffbot.knime.article.DiffbotArticleNodeFactory"
+            id="com.diffbot.knime.article.DiffbotArticleNodeFactory"/>
+      <node
+            category-path="/community/diffbot"
+            factory-class="com.diffbot.knime.analyze.DiffbotAnalyzeNodeFactory"
+            id="com.diffbot.knime.analyze.DiffbotAnalyzeNodeFactory"/>
+   </extension>
+   
+</plugin>

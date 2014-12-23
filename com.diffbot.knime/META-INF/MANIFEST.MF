@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Diffbot Article node extension for KNIME Workbench
+Bundle-SymbolicName: com.diffbot.knime;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-ClassPath: diffbot.jar
+Bundle-Activator: com.diffbot.knime.internal.DiffbotArticleNodePlugin
+Bundle-Vendor: Diffbot Corp.
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",
+ org.knime.workbench.core;bundle-version="[2.11.0,3.0.0)",
+ org.knime.workbench.repository;bundle-version="[2.11.0,3.0.0)",
+ org.knime.base;bundle-version="[2.11.0,3.0.0)",
+ org.knime.json;bundle-version="[2.11.0,3.0.0)",
+ diffbot.diffbot-java;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: com.diffbot.knime.article
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

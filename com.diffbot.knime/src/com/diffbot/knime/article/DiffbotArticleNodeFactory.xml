@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knimeNode icon="./diffbot_article.png" type="Source" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Diffbot Article</name>
+    
+    <shortDescription>
+        Invokes Diffbot article service and returns the extracted information as JSON values from the specified (remote) URL(s).        The optional input table can be a source of input URLs.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro><p>Converts a web article to an easier to process JSON document, also containing a <a href="https://www.diffbot.com/dev/docs/article/html/">normalized HTML</a> inside.</p>
+<p>Use the <tt>Fields</tt> argument to return optional fields in the JSON response. The default fields will always be returned. For nested arrays, use parentheses to retrieve specific fields, or <tt>*</tt> to return all sub-fields.</p>
+<p>For example, to return links and the image height fields (in addition to the default fields), your <tt>Custom optional fields settings</tt> argument would be:
+<tt>links,images(height)</tt></p>
+<p><b>Basic Authentication</b><br/>
+To access pages that require a login/password (using <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic access authentication</a>), include the username and password in your <tt>url</tt> parameter, e.g.: <tt>http://USERNAME:PASSWORD@www.diffbot.com</tt>.</p>
+<p><b>Results</b><br/>Each V3 response includes a <tt>request</tt> object (which returns request-specific metadata), and an <tt>objects</tt> array, which will include the extracted information for all objects on a submitted page. At the moment, only a single object will be returned for Article API requests.
+Objects in the Article API's <tt>objects</tt> array will include the following fields:
+<ul>
+<li><tt>type</tt>Type of object (always <tt>article</tt>). (<tt>$.objects.type</tt>)</li>	
+<li><tt>pageUrl</tt> URL of submitted page / page from which the article is extracted. (<tt>$.objects.pageUrl</tt>)</li>
+<li><tt>resolvedPageUrl</tt> Returned if the <tt>pageUrl</tt> redirects to another URL. (<tt>$.objects.resolvedPageUrl</tt>)</li>
+<li><tt>title</tt> Title of the article. (<tt>$.objects.title</tt>)</li>
+<li><tt>text</tt> Full text of the article. (<tt>$.objects.text</tt>)</li>
+<li><tt>html</tt> <a href="https://www.diffbot.com/dev/docs/article/html">Diffbot-normalized HTML</a> of the extracted article. Please see the HTML Specification for a breakdown of elements and attributes returned. (<tt>$.objects.html</tt>)</li>
+<li><tt>date</tt> Date of extracted article, normalized in most cases to <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3">RFC 1123 (HTTP/1.1)</a>. (<tt>$.objects.date</tt>)</li>
+<li><tt>author</tt> Article author. (<tt>$.objects.author</tt>)</li>
+<li><tt>tags</tt> Array of tags/entities, generated from analysis of the extracted <tt>text</tt> and cross-referenced with <a href="http://wiki.dbpedia.org/About">DBpedia</a>. Returned with &amp;fields=tags. (<tt>$.objects.tags</tt>)</li>
+<li><tt>+ label</tt> Name of the automatically-generated entity or tag. Tags are based on analysis of the text field and cross-referenced with <a href="http://wiki.dbpedia.org/About">DBpedia</a>. (<tt>$.objects.tags.label</tt>)</li>
+<li><tt>+ type</tt> Link to the entity type, if identified, at DBpedia. (<tt>$.objects.tags.type</tt>)</li>
+<li><tt>+ uri</tt> Link to the entity at DBpedia. (<tt>$.objects.tags.uri</tt>)</li>
+<li><tt>humanLanguage</tt> Returns the (spoken/human) language of the submitted page, using two-letter <a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1 nomenclature</a>. (<tt>$.objects.humanLanguage</tt>)</li>
+<li><tt>numPages</tt> Number of pages automatically concatenated to form the <tt>text</tt> or <tt>html</tt> response. By default, Diffbot will <a href="http://support.diffbot.com/automatic-apis/handling-multiple-page-articles/">automatically concatenate</a> up to 20 pages of an article. (<tt>$.objects.numPages</tt>)</li>
+<li><tt>nextPages</tt> Array of all page URLs concatenated in a multipage article. <a href="http://support.diffbot.com/automatic-apis/handling-multiple-page-articles/">More on automatic concatenation</a>. (<tt>$.objects.nextPages</tt>)</li>
+<li><tt>images</tt> Array of images, if present within the article body. (<tt>$.objects.images</tt>)</li>
+<li><tt>+ url</tt> Fully resolved link to image. (<tt>$.objects.images.url</tt>)</li>
+<li><tt>+ title</tt> Description or caption of the image. (<tt>$.objects.images.title</tt>)</li>
+<li><tt>+ naturalHeight</tt> Raw image height, in pixels. (<tt>$.objects.images.naturalHeight</tt>)</li>
+<li><tt>+ naturalWidth</tt> Raw image width, in pixels. (<tt>$.objects.images.naturalWidth</tt>)</li>
+<li><tt>+ primary</tt> Returns <tt>true</tt> if image is identified as primary based on visual analysis. (<tt>$.objects.images.primary</tt>)</li>
+<li><tt>+ diffbotUri</tt> Internal ID used for indexing. (<tt>$.objects.images.diffbotUri</tt>)</li>
+<li><tt>videos</tt> Array of videos, if present within the article body. (<tt>$.objects.videos</tt>)</li>
+<li><tt>+ url</tt> Fully resolved link to source video content. (<tt>$.objects.videos.url</tt>)</li>
+<li><tt>+ primary</tt> Returns <tt>true</tt> if video is identified as primary based on visual analysis. (<tt>$.objects.videos.primary</tt>)</li>
+<li><tt>+ diffbotUri</tt> Internal ID used for indexing. (<tt>$.objects.videos.diffbotUri</tt>)</li>
+<li><tt>diffbotUri</tt> Internal ID used for indexing. (<tt>$.objects.diffbotUri</tt>)</li>
+<li>Optional fields, available using <tt>Fields</tt></li>
+<li><tt>images</tt> Array of images, if present within the article body. (<tt>$.objects.images</tt>)</li>
+<li><tt>+ height</tt> Height of image as (re-)sized via browser/CSS. (<tt>$.objects.images.height</tt>)</li>
+<li><tt>+ width</tt> Width of image as (re-)sized via browser/CSS. (<tt>$.objects.width</tt>)</li>
+<li><tt>videos</tt> Array of videos, if present within the article body. (<tt>$.objects.videos</tt>)</li>
+<li><tt>+ naturalHeight</tt> Raw video height, in pixels. (<tt>$.objects.videos.naturalHeight</tt>)</li>
+<li><tt>+ naturalWidth</tt> Raw video width, in pixels. (<tt>$.objects.videos.naturalWidth</tt>)</li>
+<li><tt>links</tt> Returns a top-level object (<tt>links</tt>) containing all hyperlinks found on the page. (<tt>$.objects.links</tt>)</li>
+<li><tt>meta</tt> Returns a top-level object (<tt>meta</tt>) containing the full contents of page meta tags, including sub-arrays for <a href="http://ogp.me/">OpenGraph</a> tags, <a href="https://dev.twitter.com/docs/cards/markup-reference">Twitter Card</a> metadata, <a href="http://www.schema.org/">schema.org</a> microdata, and --if available-- <a href="http://www.oembed.com/">oEmbed</a> metadata. (<tt>$.objects.meta</tt>)</li>
+<li><tt>querystring</tt> Returns any key/value pairs present in the URL querystring. Items without a discrete value will be returned as <tt>true</tt>. (<tt>$.objects.queryString</tt>)</li>
+</ul>
+</p>
+
+</intro>
+        
+        <tab name="Settings">
+	        <option name="Token">Service token to be used. <a href="http://www.diffbot.com/pricing/">Sign up for a plan</a> to get one.</option>
+	        <option name="URL">Web page URL of the article to process.</option>
+	        <option name="URL column">Column name of the URLs of web pages of the articles to process.</option>
+	        <option name="Version">The Diffbot API version to use. (<tt>v</tt> prefix automatically added if not specified).</option>
+	        <option name="Timeout">Set a value in milliseconds to terminate the response.</option>
+	        <option name="Paging">By default, Diffbot will <a href="http://support.diffbot.com/automatic-apis/handling-multiple-page-articles">automatically concatenate</a> up to 20 pages of a single article. You can turn this off, by unchecking this option.</option>
+	        <option name="Output column name">The (JSON) results are stored in this column.</option>
+        </tab>
+        <tab name="Fields">
+        	<option name="Fields">List of optional fields in the format specified above or on the <a href="https://www.diffbot.com/dev/docs/article/#fields">homepage</a>.</option>
+        	<option name="Extra arguments">For those arguments that are not supported in <tt>v3</tt> (use the encoded syntax).</option>
+        </tab>
+        <tab name="Headers">
+        	<option name="User agent">Diffbot's <tt>User-Agent</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        	<option name="Referer">Diffbot's <tt>Referer</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        	<option name="Cookie">Diffbot's <tt>Cookie</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        	<option name="Accept language">Diffbot's <tt>Accept-Language</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        </tab>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="URLs">Table containing (remote) URLs to visit by diffbot.</inPort>
+        <outPort index="0" name="Content">Diffbot extracted content from the specified URL(s), see the <b>Results</b> section.</outPort>
+    </ports>    
+</knimeNode>

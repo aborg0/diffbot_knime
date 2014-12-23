@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knimeNode icon="./diffbot_analyze.png" type="Source" xmlns="http://knime.org/node/v2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://knime.org/node/v2.10 http://knime.org/node/v2.10.xsd">
+    <name>Diffbot Analyze</name>
+    
+    <shortDescription>
+        Invokes Diffbot Analyze service and returns the extracted information as JSON values from the specified (remote) URL(s).        The optional input table can be a source of input URLs.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro><p>The Diffbot Analyze API visually analyzes a web page, identifies its "page-type," and determines which Diffbot extraction API (if any) is appropriate. Pages that match a supported extraction API -- articles, discussions, images, products or videos -- <b>will be automatically extracted</b> and returned in the Analyze API response.
+<br/>Pages not currently supported by an extraction API will return "other".</p>
+<p>Use the <tt>Fields</tt> argument to return optional fields in the JSON response. The default fields will always be returned.</p>
+<p><b>Basic Authentication</b><br/>
+To access pages that require a login/password (using <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic access authentication</a>), include the username and password in your <tt>url</tt> parameter, e.g.: <tt>http://USERNAME:PASSWORD@www.diffbot.com</tt>.</p>
+<p>Each V3 response includes a <tt>request</tt> object (which returns request-specific metadata), and an <tt>objects</tt> array, which will include the extracted information for all objects on a submitted page.
+<br/>
+If the Analyze API identifies the submitted page as an article, discussion thread, product or image, the associated object(s) from the page will be returned automatically in the <tt>objects</tt> array.</p>
+<p>The default fields returned are:
+<ul>
+<li><tt>title</tt> - Title of the page.</li>
+<li><tt>type</tt> - Page-type of the submitted URL, either article, image, product or other.</li>
+<li><tt>humanLanguage</tt> - Returns the (spoken/human) language of the submitted page, using two-letter ISO 639-1 nomenclature.</li>
+</ul>
+<br/>
+Optional fields specified in the (comma separated) <tt>Fields</tt> parameter:
+<ul>
+<li><tt>links</tt> - Returns a top-level object (<tt>links</tt>) containing all hyperlinks found on the page.</li>
+<li><tt>meta</tt> - Returns a top-level object (<tt>meta</tt>) containing the full contents of page meta tags, including sub-arrays for <a href="http://ogp.me/">OpenGraph</a> tags, <a href="https://dev.twitter.com/docs/cards/markup-reference">Twitter Card</a> metadata, <a href="http://www.schema.org/">schema.org</a> microdata, and - if available - <a href="http://www.oembed.com/">oEmbed</a> metadata.</li>
+<li><tt>querystring</tt> - Returns any key/value pairs present in the URL querystring. Items without a discrete value will be returned as <tt>true</tt>.</li>
+</ul>
+</p>
+
+</intro>
+        
+        <tab name="Settings">
+	        <option name="Token">Service token to be used. <a href="http://www.diffbot.com/pricing/">Sign up for a plan</a> to get one.</option>
+	        <option name="URL">Web page/column containing the web pages to process.</option>
+	        <option name="Output column">The (JSON) results are stored in this column.</option>
+	        <option name="Mode">y default the Analyze API will fully extract all pages that match an existing Automatic API -- articles, products or image pages. Set <tt>mode</tt> to a specific page-type (e.g., <tt>article</tt>) to extract content only from that specific page-type. All other pages will simply return the default Analyze fields.</option>
+        	<option name="Fields">List of optional fields in the format specified above or on the <a href="https://www.diffbot.com/dev/docs/analyze/">homepage</a>.</option>
+	        <option name="Diffbot version">The Diffbot API version to use. (<tt>v</tt> prefix automatically added if not specified).</option>
+	        <option name="Timeout">Set a value in milliseconds to terminate the response.</option>
+        </tab>
+        <tab name="Headers">
+        	<option name="User agent">Diffbot's <tt>User-Agent</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        	<option name="Referer">Diffbot's <tt>Referer</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        	<option name="Cookie">Diffbot's <tt>Cookie</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        	<option name="Accept language">Diffbot's <tt>Accept-Language</tt> header when making your request. (Empty value causes using the defaults.)</option>
+        </tab>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="URLs">Table containing (remote) URLs to visit by diffbot.</inPort>
+        <outPort index="0" name="Content">Diffbot extracted content from the specified URL(s), see the <b>Results</b> section.</outPort>
+    </ports>    
+</knimeNode>

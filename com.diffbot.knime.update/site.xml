@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.diffbot.knime.feature_0.1.0.qualifier.jar" id="com.diffbot.knime.feature" version="0.1.0.qualifier">
+      <category name="diffbot"/>
+   </feature>
+   <category-def name="diffbot" label="Diffbot">
+      <description>
+         Nodes from Diffbot Corp.
+      </description>
+   </category-def>
+</site>
